@@ -103,6 +103,7 @@ function printSchemaBox($page)
 	$total = $mysql -> fetch_array("SELECT count(ID) FROM schematics",MYSQL_NUM,true)[0];
 	$numPerPage = 50;
 	$index = $numPerPage * $page;
+	$mysql -> query("UPDATE schematics SET score='0' WHERE score=null");
 	$data = $mysql->fetch_array("SELECT * FROM schematics ORDER BY score DESC LIMIT $index,$numPerPage", MYSQLI_ASSOC, false);
 	echo "<div class='schemaBox'>";
 	echo "<table>";
