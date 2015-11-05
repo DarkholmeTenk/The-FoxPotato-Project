@@ -49,6 +49,13 @@
 		display: inline;
 	}
 
+	.schemaBox a
+	{
+		text-decoration: none;
+		font-weight: bold;
+		color: rgb(45, 67, 255);
+	}
+
 	.schemaUserTD
 	{
 		text-align:center;

@@ -54,11 +54,15 @@ function printVotes($schemaID,$schemaScore)
 	}
 	for($i = -1; $i <=1; $i++)
 	{
-		echo "<form method=GET>";
-		echo "<input type='hidden' name='v' value='$i'>";
-		echo "<input type='hidden' name='vs' value='$schemaID'>";
+		if($isLoggedIn)
+		{
+			echo "<form method=POST>";
+			echo "<input type='hidden' name='v' value='$i'>";
+			echo "<input type='hidden' name='vs' value='$schemaID'>";
+		}
 		printVoteImage($i,$score);
-		echo "</form>";
+		if($isLoggedIn)
+			echo "</form>";
 	}
 	if($schemaScore == null)
 		$schemaScore = 0;
@@ -80,7 +84,8 @@ function printSchemaBox($page)
 	{
 		$dataEntry = $data[$i];
 		$ownerEntry = getUserData($dataEntry["userID"]);
-		echo "<tr><td class='schemaUserTD'><img class='smallUserIcon' src='". $ownerEntry["picture"] . "'/><br>".$ownerEntry["givenName"]."</td>";
+		echo "<tr><td class='schemaUserTD'><img class='smallUserIcon' src='". $ownerEntry["picture"] . "'/><br>";
+		echo "<a href='".$ownerEntry['link'] ."'>".$ownerEntry["givenName"]."</a></td>";
 		echo "<th>Schematic Name:<td>" . str_replace(".schema","",$dataEntry["name"]);
 		echo "<th>Blocks:<td>" . $dataEntry["blocks"];
 		echo "<th>Size:<td>" . $dataEntry["bounds"];
@@ -197,9 +202,10 @@ function vote($schemaID,$score)
 
 function handleVotes()
 {
-	if(isset($_GET["v"]) && isset($_GET["vs"]))
+	$array = $_POST;
+	if(isset($array["v"]) && isset($array["vs"]))
 	{
-		vote($_GET["vs"],$_GET["v"]);
+		vote($array["vs"],$array["v"]);
 	}
 }
 ?>

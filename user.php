@@ -1,7 +1,5 @@
 <?php
 	session_start();
-	$client_id = '';
-	$client_secret = '';
 	$redirect_uri = 'http://foxpotato.com';
 
 	$client = new Google_Client();
