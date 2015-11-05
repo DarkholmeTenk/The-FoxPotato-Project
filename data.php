@@ -154,7 +154,7 @@ function handleUpload()
 function printFileUploadBox()
 {
 	global $isLoggedIn;
-	echo "<div class='box uploadBox'>";
+	echo "<div class='box uploadBox header'>";
 	if($isLoggedIn)
 	{
 		handleUpload();

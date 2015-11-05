@@ -11,10 +11,8 @@
 
 	.userBox
 	{
-		position: absolute;
-		top: 15px;
-		right: 15px;
 		height: 200px;
+		order: 1;
 	}
 	.heading {text-align:center;padding:10px;font-family: 'Open Sans', arial;color: #555;font-size: 18px;font-weight: 400;}
 	.circle-image{width:100px;height:100px;-webkit-border-radius: 50%;border-radius: 50%;}
@@ -63,16 +61,36 @@
 
 	.uploadBox
 	{
-		position: absolute;
 		width: 470px;
 		height: 200px;
-		left: 15px;
-		top: 15px;	
+		order: -1;
 	}
 	
 	.logo
 	{
 		text-align: center;
-		margin-left: auto;
-		margin-right: auto;
+		order: 0;
+	}
+
+	.header
+	{
+		flex: 0 0 auto;
+	}
+
+	.headerCont
+	{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		width: 100%
+	}
+	
+	@media (max-width: 1630px)
+	{
+		.logo{order: -100;}
+	}
+
+	@media (max-width: 1024px)
+	{
+		.uploadBox { display: none;}
 	}

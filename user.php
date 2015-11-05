@@ -49,7 +49,7 @@
 		global $userData;
 		global $isLoggedIn;
 		global $authUrl;
-		echo "<div class='userBox box'>";
+		echo "<div class='userBox box header'>";
 		if($isLoggedIn)
 		{
 			echo "<img class='circle-image' src='".$userData['picture']."' width=100px height=100px /><br/>";
