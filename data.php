@@ -1,6 +1,40 @@
 <?php
 $mysql = new Mysql($db, "localhost", $dbun, $dbpw, 3306);
 
+function getURL($gets=null, $useOldGet=false, $useRedirectUri=false)
+{
+	global $redirect_uri;
+	if($useRedirectUri || $gets==null)
+		$url = $redirect_uri . "?";
+	else
+		$url = "?";
+	if($useOldGet)
+	{
+		foreach($_GET as $key=>$value)
+		{
+			if(is_array($value))
+			{
+				foreach($value as $sKey=>$sValue)
+					$url .= "$key[$sKey]=$sValue&";
+			}
+			else
+				$url .= "$key=$value&";
+		}	
+	}
+	if($gets != null)
+		foreach($gets as $key=>$value)
+		{
+			if(is_array($value))
+			{
+				foreach($value as $sKey=>$sValue)
+					$url .= "$key[$sKey]=$sValue&";
+			}
+			else
+				$url .= "$key=$value&";
+		}
+	return substr($url,0,-1);
+}
+
 function addUser($userData)
 {
 	global $mysql;
@@ -10,14 +44,6 @@ function addUser($userData)
 	$email=$userData["email"];
 	$picture=$userData["picture"];
 	$mysql->insert_update("googleUsers",array("id"=>$id,"givenName"=>$givenName,"link"=>$link,"email"=>$email,"picture"=>$picture),array("id"));
-	/*if($mysql->num_entries("SELECT id FROM googleUsers WHERE id='$id'") == 0)
-	{
-		$mysql->query("INSERT INTO googleUsers(id, givenName, link, picture, email) VALUES('$id','$givenName','$link','$picture','$email')");
-	}
-	else
-	{
-		$mysql->query("UPDATE googleUsers SET givenName='$givenName', link='$link', email='$email', picture='$picture' WHERE id='$id'");
-	}*/
 }
 
 function printVoteImage($button, $score)
@@ -85,7 +111,7 @@ function printSchemaBox($page)
 		$dataEntry = $data[$i];
 		$ownerEntry = getUserData($dataEntry["userID"]);
 		echo "<tr><td class='schemaUserTD'><img class='smallUserIcon' src='". $ownerEntry["picture"] . "'/><br>";
-		echo "<a href='".$ownerEntry['link'] ."'>".$ownerEntry["givenName"]."</a></td>";
+		echo "<a href='".$ownerEntry['link'] ."'>".getUsername($ownerEntry)."</a></td>";
 		echo "<th>Schematic Name:<td>" . str_replace(".schema","",$dataEntry["name"]);
 		echo "<th>Blocks:<td>" . $dataEntry["blocks"];
 		echo "<th>Size:<td>" . $dataEntry["bounds"];
@@ -123,11 +149,11 @@ function handleUpload()
 			echo "Invalid schema file!";
 			return;
 		}
-		$name = $fileData["name"];
+		$name = mysql_real_escape_string($fileData["name"]);
 		$bounds = getBounds($data);
 		$bounds = "X:".$bounds[0] . " Y:" .$bounds[1] . " Z:".$bounds[2];
 		$blocks = getSize($data);
-		$desc = isset($_POST["desc"]) ? $_POST["desc"] : "No description";
+		$desc = mysql_real_escape_string(isset($_POST["desc"]) ? $_POST["desc"] : "No description");
 		$userID = $userData["id"];
 		//$id = $mysql->query_id("INSERT INTO schematics(name,bounds,userID,blocks,description) VALUES('$name','$bounds','$userID','$blocks','$desc')");
 		$id = $mysql->insert_update("schematics",array("name"=>$name,"bounds"=>$bounds,"userID"=>$userID,"blocks"=>$blocks,"description"=>$desc),array("userID","name"));

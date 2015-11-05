@@ -14,13 +14,39 @@
 		height: 200px;
 		order: 1;
 	}
+	
+	.userBox form
+	{
+		display: inline;
+	}
+
+	.userBoxBottom
+	{
+		display: inline-flex;
+		width:85%;
+		justify-content: space-between;
+		font-size: 13px;
+		padding: 5px;
+		margin-top: auto;
+		border-top: #CCCCCC 1px solid;
+	}
+
+	.userBoxBottom
+	{
+		padding: 0;
+	}
+
+	.logout
+	{
+		margin: auto 0 auto;
+	}
+
+	.userBoxBottom a{color:#8E009C;}
 	.heading {text-align:center;padding:10px;font-family: 'Open Sans', arial;color: #555;font-size: 18px;font-weight: 400;}
 	.circle-image{width:100px;height:100px;-webkit-border-radius: 50%;border-radius: 50%;}
 	.smallUserIcon{width:45px;height:45px;-webkit-border-radius: 50%;border-radius: 50%;}
-	.welcome{font-size: 16px;font-weight: bold;text-align: center;margin: 10px 0 0;min-height: 1em;}
+	.welcome{font-size: 16px;font-weight: bold;text-align: center;margin: 10px 0 15px;min-height: 1em;}
 	.oauthemail{font-size: 14px;}
-	.logout{font-size: 13px;text-align: right;padding: 5px;margin: 20px 5px 0px 5px;border-top: #CCCCCC 1px solid;}
-	.logout a{color:#8E009C;}
 
 	body
 	{

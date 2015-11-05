@@ -12,7 +12,7 @@
 	handleVotes();
 	echo "<div class='headerCont'>";
 	printFileUploadBox();
-	echo "<div class='logo header'><a href='http://foxpotato.com'><img class='logo' src='FPP.png'/></a></div>";
+	echo "<div class='logo header'><a href='$redirect_uri'><img class='logo' src='FPP.png'/></a></div>";
 	printUserBox();
 	echo "</div>";
 	printSchemaBox(0);
