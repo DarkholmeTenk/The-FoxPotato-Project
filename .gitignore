@@ -1,0 +1,5 @@
+schema
+composer.lock
+settings.php
+*.swp
+vendor/

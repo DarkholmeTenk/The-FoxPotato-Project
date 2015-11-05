@@ -1,0 +1,7 @@
+{
+	"require": {
+		"google/apiclient": "1.1.*",
+		"monolog/monolog": "^1.17",
+		"rickselby/nbt": "^3.1"
+	}
+}
