@@ -222,7 +222,7 @@ function vote($schemaID,$score)
 			$mysql->insert_update("schematicVotes",array("userID"=>$userData["id"],"schemaID"=>$schemaID,"score"=>$score),array("userID","schemaID"));
 		else
 			$mysql->query("DELETE FROM schematicVotes WHERE userID='".$userData["id"]."' AND schemaID='$schemaID'");
-		$mysql->query("UPDATE schematics SET score=(SELECT sum(score) FROM schematicVotes WHERE schemaID='$schemaID') WHERE id='$schemaID'");
+		$mysql->query("UPDATE schematics SET score=COALESCE((SELECT sum(score) FROM schematicVotes WHERE schemaID='$schemaID'),0) WHERE id='$schemaID'");
 	}
 }
 
