@@ -105,9 +105,9 @@ function printSchemaBox($page)
 	$index = $numPerPage * $page;
 	$data = $mysql->fetch_array("SELECT * FROM schematics ORDER BY score DESC LIMIT $index,$numPerPage WHERE hidden!='1'", MYSQLI_ASSOC, false);
 	echo "<div class='schemaBox'>";
-	echo "<table>";
 	for($i = 0; $i<count($data); $i++)
 	{
+		echo "<table class='schemaTable'>";
 		$dataEntry = $data[$i];
 		$ownerEntry = getUserData($dataEntry["userID"]);
 		echo "<tr><td class='schemaUserTD'><img class='smallUserIcon' src='". $ownerEntry["picture"] . "'/><br>";
@@ -120,8 +120,8 @@ function printSchemaBox($page)
 		printVotes($dataEntry["id"],$dataEntry["score"]);
 		echo "<td><a href='".str_replace($schemaFolder,$schemaUrl,$dataEntry["fileName"])."'>Download here</a>";
 		echo "<tr><td><td colspan=6>".$dataEntry["description"]."</tr>";
+		echo "</table>";
 	}
-	echo "</table>";
 	echo "</div>";
 	return $total > ($index + $numPerPage);
 }
