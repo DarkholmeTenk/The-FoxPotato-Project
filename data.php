@@ -105,12 +105,13 @@ function printSchemaBox($page)
 	$index = $numPerPage * $page;
 	$data = $mysql->fetch_array("SELECT * FROM schematics WHERE hidden is null ORDER BY score DESC LIMIT $index,$numPerPage", MYSQLI_ASSOC, false);
 	echo "<div class='schemaBox'>";
+	echo "<table class='schemaTable'>";
 	for($i = 0; $i<count($data); $i++)
 	{
-		echo "<table class='schemaTable'>";
 		$dataEntry = $data[$i];
 		$ownerEntry = getUserData($dataEntry["userID"]);
-		echo "<tr><td class='schemaUserTD'><img class='smallUserIcon' src='". $ownerEntry["picture"] . "'/><br>";
+		echo "<tr class='schemaNewRow'>";
+		echo "<td class='schemaUserTD'><img class='smallUserIcon' src='". $ownerEntry["picture"] . "'/><br>";
 		echo "<a href='".$ownerEntry['link'] ."'>".getUsername($ownerEntry)."</a></td>";
 		echo "<th>Schematic Name:<td>" . str_replace(".schema","",$dataEntry["name"]);
 		echo "<th>Blocks:<td>" . $dataEntry["blocks"];
@@ -119,9 +120,9 @@ function printSchemaBox($page)
 		echo "<th colspan=3>";
 		printVotes($dataEntry["id"],$dataEntry["score"]);
 		echo "<td><a href='".str_replace($schemaFolder,$schemaUrl,$dataEntry["fileName"])."'>Download here</a>";
-		echo "<tr><td><td colspan=6>".$dataEntry["description"]."</tr>";
-		echo "</table>";
+		echo "<tr><td><td colspan=6>".$dataEntry["description"]."</tr>\n";
 	}
+	echo "</table>";
 	echo "</div>";
 	return $total > ($index + $numPerPage);
 }

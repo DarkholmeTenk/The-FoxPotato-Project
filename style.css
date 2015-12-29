@@ -110,7 +110,20 @@
 		justify-content: space-around;
 		width: 100%
 	}
-	
+
+	.schemaTable
+	{
+		width: 800px;
+		border-collapse: collapse;
+	}
+
+	.schemaNewRow td, .schemaNewRow th
+	{
+		border-top: #CCCCCC 1px solid;
+		padding: 2px;
+		margin-top: 5px;
+	}
+
 	@media (max-width: 1630px)
 	{
 		.logo{order: -100;}
