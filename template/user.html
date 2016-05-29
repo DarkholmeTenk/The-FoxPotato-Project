@@ -4,7 +4,7 @@
 	</div>
 	<div flex='auto' ng-if='!editing'><h3>{{data.name}}</h3></div>
 	<div flex='auto' ng-if='editing'>
-		<md-input-container><label>New Username</label><input ng-model='cUser'></input></md-input-container>
+		<form><md-input-container><label>New Username</label><input ng-model='data.cUser'></input></md-input-container></form>
 	</div>
 	<div flex='auto' layout='row' layout='space-between center'>
 		<md-button ng-if='!editing' class='md-icon-button' ng-click='edit();'><md-icon>settings</md-icon></md-button>

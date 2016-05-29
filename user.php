@@ -88,12 +88,14 @@
 	{
 		global $userData;
 		global $mysql;
-		if(!isset($_POST["displayName"])) return;
+		if(!isset($_POST["displayName"])) return fail("No value set");
 		$newName = mysql_real_escape_string($_POST["displayName"]);
 		$count = $mysql->num_entries("SELECT id FROM googleUsers WHERE displayName='$newName' AND id!='".$userData["id"]."'");
-		if($count != 0) return;
+		if($count != 0) return fail("Another user already has this name");
 		$userData["displayName"] = $newName;
 		$mysql -> query("UPDATE googleUsers SET displayName='$newName' WHERE id='".$userData["id"]."'");
+		$rd = array('success'=>true,'newName'=>$newName);
+		echo json_encode($rd);
 	}
 
 	function isAdmin()
@@ -109,7 +111,6 @@
 		global $userData;
 		global $isLoggedIn;
 		global $authUrl;
-		handleNameChange();
 		if($isLoggedIn)
 		{
 			$userData->name = getUsername($userData);

@@ -1,4 +1,4 @@
-app.controller('userController', function($scope, $location, $http, $mdToast, $mdSidenav) {
+app.controller('userController', function($scope, $location, $http, $mdToast, $mdSidenav, Upload) {
 	$scope.data;
 	$scope.auth;
 	$scope.cUser;
@@ -12,7 +12,7 @@ app.controller('userController', function($scope, $location, $http, $mdToast, $m
 
 	$scope.edit = function()
 	{
-		$scope.cUser = $scope.data.name;
+		$scope.data.cUser = $scope.data.name;
 		$scope.editing = true;
 	}
 
@@ -23,6 +23,24 @@ app.controller('userController', function($scope, $location, $http, $mdToast, $m
 
 	$scope.saveEdit = function()
 	{
+		var sendData = {displayName:$scope.data.cUser};
+		console.log(sendData);
+		Upload.upload({
+			url: "php/namechange.php",
+			data: sendData}).then(function success(response){
+				var d = response.data;
+				if(d.success)
+				{
+					$scope.data.name=d.newName;
+					$mdToast.showSimple("Name changed successfully");
+				}
+				else
+				{
+					console.log(d)
+					$mdToast.showSimple("Name change failed - " + d.reason);
+				}
+			})
+					
 		$scope.editing = false;
 	}
 })
