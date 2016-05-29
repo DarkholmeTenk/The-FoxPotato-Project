@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?php
 	require_once("reqs.php");
-	echo "<base href='$redirect_uri'>";
+	echo "<base href='$redirect_uri/'>";
 	angImport();
 	echo "<script src='tests/script.js'></script>\n";
 	echo "<script src='tests/site.js'></script>\n";
