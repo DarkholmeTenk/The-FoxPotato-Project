@@ -1,6 +1,6 @@
 <?php
 	session_start();
-
+	$isLoggedIn = false;
 	$client = new Google_Client();
 	$client->setClientId($client_id);
 	$client->setClientSecret($client_secret);
@@ -44,6 +44,46 @@
 		$isLoggedIn = false;
 	}
 
+	function blockConvert($id,$ob,$nb,$n,$nc)
+	{	
+		$len = strlen($id);
+		$str = "";
+		//echo "Converting: $id<br/>";
+		for($i = 0; $i < ceil($len/$n); $i++)
+		{
+			$o = $len - ($i * $n);
+			$sstr = substr($id,max(0,$o-$n),$n);
+			$cstr = base_convert($sstr,$ob,$nb);
+			//echo "convert $sstr $cstr<br>";
+			while(strlen($cstr) < $nc)
+				$cstr = "0".$cstr;
+			$str = $cstr . $str;
+		}
+		return $str;
+	}
+
+	function unsquashUserID($id)
+	{
+		return blockConvert($id,36,10,2,3);	
+	}
+
+	function squashUserID($id)
+	{
+		return blockConvert($id,10,36,3,2);	
+		/*$len = strlen($id);
+		$str = "";
+		for($i = 0; $i < ceil($len/4); $i++)
+		{
+			$o = $len - ($i * 4);
+			$sstr = str_split($id,$o,max(0,$o-4));
+			$cstr = base_convert($sstr,10,36);
+			while(strlen($cstr) < 2)
+				$cstr = "0".$cstr;
+			$str = $cstr . $str;
+		}
+		return $str;*/
+	}
+
 	function handleNameChange()
 	{
 		global $userData;
@@ -56,13 +96,21 @@
 		$mysql -> query("UPDATE googleUsers SET displayName='$newName' WHERE id='".$userData["id"]."'");
 	}
 
+	function isAdmin()
+	{
+		global $isLoggedIn;
+		if(!$isLoggedIn) return false;
+		global $userData;
+		return $userData["id"] == 118436258441283568772;
+	}
+
 	function printUserBox()
 	{
 		global $userData;
 		global $isLoggedIn;
 		global $authUrl;
 		handleNameChange();
-		echo "<div class='userBox box header'>";
+		echo "<div class='userBox marginTop'>\n";
 		if($isLoggedIn)
 		{
 			echo "<img class='circle-image' src='".$userData['picture']."' width=100px height=100px /><br/>";

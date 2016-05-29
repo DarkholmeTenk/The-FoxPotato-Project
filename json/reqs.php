@@ -1,0 +1,9 @@
+<?php
+	date_default_timezone_set("Europe/London");
+	include_once("../settings.php");
+	require_once("../mysql.php");
+	require_once("../vendor/autoload.php");
+	require_once("../schema.php");
+	require_once("../data.php");
+	require_once("../user.php");
+?>

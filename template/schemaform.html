@@ -1,0 +1,55 @@
+<div flex='auto'>
+	<md-toolbar layout='column'>
+		<div class='md-toolbar-tools'>
+			<md-button class='md-icon-button' href='{{item.fileName}}'><md-icon>get_app</md-icon></md-button>
+			{{item.name}}
+			<span flex></span>
+			<md-button class='md-icon-button' ng-click='save(item.id)' ng-if='item.canEdit'><md-icon>done</md-icon></md-button>
+		</div>
+	</md-toolbar>
+	<div layout='row' layout-align='stretch stretch'>
+		<div layout='column' flex='75' layout-align='start stretch'>
+			<div flex='auto'>
+				<md-input-container><label>Description</label>
+				<textarea rows=5 cols=90 ng-model='item.description'>
+				</textarea>
+				</md-input-container>
+			</div>
+			<div>
+				<md-divider></md-divider>
+				<md-input-container><label>Imgur Album ID</label><input ng-model='item.imgurAlbum'></input><md-input-container>
+			</div>
+		</div>
+		<div layout='column' flex='25' layout-align='start stretch'>
+			<div flex='auto' layout='row' layout-align='center'>
+				<div flex='grow' layout='column' layout-align='center center' class='userblob'>
+					<a href='{{item.userLink}}'>
+					<div flex='auto'><img class='smallUserIcon marginTop' ng-src='{{item.userPic}}'/></div>
+					<div flex='auto'><b>{{item.userName}}</b></div>
+					</a>
+				</div>
+				<div layout='column' layout-align='center center'>
+					<div>
+						<md-button class='md-icon-button' ng-disabled='!item.canVote' ng-click='vote(item.id,item.voteState,1)'>
+						<md-icon class='material-icons thumbUp{{item.voteState}}'>thumb_up</md-icon>
+						</md-button>
+					</div>
+					<div>
+						{{item.score}}
+					</div>
+					<!--<div>N</div>-->
+					<div>
+						<md-button class='md-icon-button' ng-disabled='!item.canVote' ng-click='vote(item.id,item.voteState,-1)'>
+						<md-icon class='material-icons thumbDown{{item.voteState}}'>thumb_down</md-icon>
+						</md-button>
+					</div>
+				</div>
+			</div>
+			<div>X: {{item.bounds.X}}</div>
+			<div>Y: {{item.bounds.Y}}</div>
+			<div>Z: {{item.bounds.Z}}</div>
+			<div>B: {{item.blocks}}</div>
+			<div>M: {{item.modified}}</div>
+		</div>
+	</div>
+</div>

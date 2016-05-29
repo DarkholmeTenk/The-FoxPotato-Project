@@ -1,3 +1,13 @@
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	#drawer
+	{
+		box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+	}
+
 	.box {
 		background-color: #F1F1F1;
 		border:0;
@@ -11,6 +21,7 @@
 
 	.userBox
 	{
+		text-align: center;
 		height: 200px;
 		order: 1;
 	}
@@ -50,7 +61,7 @@
 
 	body
 	{
-		font-family: Arial, sans-serif;
+		font-family: 'Roboto', 'Noto', sans-serif;
 	}
 
 	.schemaBox
@@ -87,8 +98,9 @@
 
 	.uploadBox
 	{
-		width: 470px;
-		height: 200px;
+		width: auto;
+		text-align: center;
+		min-height:200px;
 		order: -1;
 	}
 	
@@ -98,38 +110,49 @@
 		order: 0;
 	}
 
-	.header
-	{
-		flex: 0 0 auto;
-	}
-
-	.headerCont
-	{
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-around;
-		width: 100%
-	}
-
 	.schemaTable
 	{
 		width: 800px;
 		border-collapse: collapse;
 	}
 
-	.schemaNewRow td, .schemaNewRow th
+	.marginTop
 	{
-		border-top: #CCCCCC 1px solid;
-		padding: 2px;
-		margin-top: 5px;
+		margin-top: 8px;
 	}
 
-	@media (max-width: 1630px)
+	.thumbUp1
 	{
-		.logo{order: -100;}
+		color: rgb(33,66,255);
 	}
 
-	@media (max-width: 1024px)
+	.thumbDown-1
 	{
-		.uploadBox { display: none;}
+		color: red;
+	}
+
+	#toast-container
+	{
+		overflow: hidden;
+	}
+
+	md-content
+	{
+		overflow: scroll;
+	}
+
+	.albumCont
+	{
+		overflow-x: auto;
+	}
+
+	.albumCont img
+	{
+		max-height:140px;
+		margin: 2px;
+	}
+
+	.userblob
+	{
+		text-align: center;
 	}

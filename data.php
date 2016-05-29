@@ -1,5 +1,42 @@
 <?php
 $mysql = new Mysql($db, "localhost", $dbun, $dbpw, 3306);
+$webComponentsIncluded = false;
+
+function angImport()
+{
+	echo '	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.js"></script>';
+}
+
+function paperImport($types)
+{
+	global $redirect_uri;
+	global $webComponentsIncluded;
+	if(!$webComponentsIncluded)
+	{
+		echo "<script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js'></script>\n";
+		echo "<script type='text/javascript' src='$redirect_uri/bower_components/webcomponentsjs/webcomponents-lite.min.js' ></script>\n";
+		$webComponentsIncluded = true;
+	}
+	echo "<link rel='import' href='$redirect_uri/bower_components/polymer/polymer.html'>\n";
+	foreach($types as $type)
+		echo "<link rel='import' href='bower_components/$type/$type.html' />\n";
+}
+
+function paper($type,$extra="",$open=true)
+{
+	if($open === null)
+		echo "<$type $extra></$type>";
+	elseif($open)
+		echo "<$type $extra>";
+	else
+		echo "</$type>";
+}
 
 function getURL($gets=null, $useOldGet=false, $useRedirectUri=false)
 {
@@ -104,12 +141,28 @@ function printSchemaBox($page)
 	$numPerPage = 50;
 	$index = $numPerPage * $page;
 	$data = $mysql->fetch_array("SELECT * FROM schematics WHERE hidden is null ORDER BY score DESC LIMIT $index,$numPerPage", MYSQLI_ASSOC, false);
+	$template = file_get_contents("template/schema.php");
 	echo "<div class='schemaBox'>";
-	echo "<table class='schemaTable'>";
 	for($i = 0; $i<count($data); $i++)
 	{
 		$dataEntry = $data[$i];
+		$date = date("F d Y H:i:s",filemtime($dataEntry["fileName"]));
 		$ownerEntry = getUserData($dataEntry["userID"]);
+		$text = $template;
+		$text = str_replace('$OWNERPIC$',	$ownerEntry["picture"],		$text);
+		$text = str_replace('$OWNERLINK$',	$ownerEntry["link"],		$text);
+		$text = str_replace('$OWNERNAME$',	getUsername($ownerEntry),	$text);
+		$text = str_replace('$SCHEMANAME$',	str_replace(".schema","",$dataEntry["name"]),$text);
+		$text = str_replace('$SCHEMABLOCKS$',	$dataEntry["blocks"],		$text);
+		$text = str_replace('$SCHEMAX$',	"TBC",				$text);
+		$text = str_replace('$SCHEMAY$',	"TBC",				$text);
+		$text = str_replace('$SCHEMAZ$',	"TBC",				$text);
+		$text = str_replace('$SCHEMADATE$',	$date,				$text);
+		$text = str_replace('$SCHEMADESC$',	$dataEntry["description"],	$text);
+		echo $text;
+		/*
+		paper("paper-material","class='marginTop'");
+		echo "<table class='schemaTable'>";
 		echo "<tr class='schemaNewRow'>";
 		echo "<td class='schemaUserTD'><img class='smallUserIcon' src='". $ownerEntry["picture"] . "'/><br>";
 		echo "<a href='".$ownerEntry['link'] ."'>".getUsername($ownerEntry)."</a></td>";
@@ -121,8 +174,9 @@ function printSchemaBox($page)
 		printVotes($dataEntry["id"],$dataEntry["score"]);
 		echo "<td><a href='".str_replace($schemaFolder,$schemaUrl,$dataEntry["fileName"])."'>Download here</a>";
 		echo "<tr><td><td colspan=6>".$dataEntry["description"]."</tr>\n";
+		echo "</table>";
+		paper("paper-material",null,false);*/
 	}
-	echo "</table>";
 	echo "</div>";
 	return $total > ($index + $numPerPage);
 }
@@ -177,11 +231,20 @@ function handleUpload()
 	}	
 }
 
+function fail($string,$os=null)
+{
+	$data["success"] = false;
+	$data["reason"] = $string;
+	if($os != null)
+		$data["oldState"] = $os;
+	echo json_encode($data,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
+}
+
 
 function printFileUploadBox()
 {
 	global $isLoggedIn;
-	echo "<div class='box uploadBox header'>";
+	echo "<div class='uploadBox'>";
 	if($isLoggedIn)
 	{
 		handleUpload();
@@ -226,6 +289,7 @@ function vote($schemaID,$score)
 		$mysql->query("UPDATE schematics SET score=COALESCE((SELECT sum(score) FROM schematicVotes WHERE schemaID='$schemaID'),0) WHERE id='$schemaID'");
 	}
 }
+
 
 function handleVotes()
 {

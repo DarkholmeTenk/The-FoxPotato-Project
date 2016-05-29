@@ -6,6 +6,7 @@
 		private $d;
 		private $query_count=0;
 		private $query_array = array();
+		public $print_debug=true;
 		
 		function __construct($database, $ip, $un, $pw, $port=3306)
 		{
@@ -26,7 +27,8 @@
 		
 		public function query($q)
 		{
-			echo "\n<!--$q-->\n";
+			if($this->print_debug)
+				echo "\n<!--$q-->\n";
 			$r = mysqli_query($this->c,$q) or trigger_error($q,$this->error($q,mysqli_error($this->c)));
 			$this -> query_count++;
 			$this->query_array[] = $q;
@@ -121,7 +123,7 @@
 		 * doUpdate=boolean, true if insert/update, false if insert only
 		 * extra = any extra which conditionals to use on the where statements
 		 */
-		public function insert_update($table, $values,$keys,$du=true,$extra="")
+		public function insert_update($table, $values,$keys,$du=true,$extra="",$di=true)
 		{
 			/*
 			 * CHECK IF RECORD EXISTS ALREADY
@@ -162,18 +164,22 @@
 				/*
 				 * INSERT NEW VALUES INTO TABLE!
 				 */
-				$q = "INSERT INTO " . $table . " (";
-				foreach($values as $key => $value)
-					$q .= $key . ",";
-				if(substr($q,-1) == ",")
-					$q = substr($q,0,-1);
-				$q .= ") VALUES (";
-				foreach($values as $key => $value)
-					$q .= "'" . mysql_real_escape_string($value)."',";
-				if(substr($q,-1) == ",")
-					$q = substr($q,0,-1);
-				$q .= ")";
-				return $this -> query_id($q);
+				if($di)
+				{
+					$q = "INSERT INTO " . $table . " (";
+					foreach($values as $key => $value)
+						$q .= $key . ",";
+					if(substr($q,-1) == ",")
+						$q = substr($q,0,-1);
+					$q .= ") VALUES (";
+					foreach($values as $key => $value)
+						$q .= "'" . mysql_real_escape_string($value)."',";
+					if(substr($q,-1) == ",")
+						$q = substr($q,0,-1);
+					$q .= ")";
+					return $this -> query_id($q);
+				}
+				return false;
 			}
 			
 		}
