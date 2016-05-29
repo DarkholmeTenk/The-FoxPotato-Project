@@ -15,4 +15,9 @@ app.controller('siteController', function($scope, $location, $http, $mdToast, $m
 	{
 		$mdSidenav('left').toggle()
 	}
+
+	$scope.openNewSchemaMenu = function()
+	{
+		$mdSidenav('right').toggle()
+	}
 })

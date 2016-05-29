@@ -7,6 +7,7 @@
 	angImport();
 	echo "<script src='tests/script.js'></script>\n";
 	echo "<script src='tests/site.js'></script>\n";
+	echo "<script src='tests/file.js'></script>\n";
 	echo "<script src='tests/user.js'></script>\n";
 	echo "<script src='tests/schema.js'></script>\n";
 ?>
@@ -20,9 +21,9 @@
 <md-sidenav md-component-id="left" class="site-sidenav md-sidenav-left">
 	<?php printUserBox() ?>
 	<md-list flex>
-		<md-list-item> TEST1</md-list-item>
-		<md-list-item> TEST2</md-list-item>
+		<md-list-item ng-if='userID!=-1' ng-click='openNewSchemaMenu()'>New Schema</md-list-item>
 	</md-list>
+	This is the development version of FoxPotato.com
 </md-sidenav>
 <div id='toast-container' layout-fill layout='column'>
 	<md-toolbar flex class='md-tall' md-scroll-shrink='false' md-shrink-speed-factor='0.2'>
@@ -39,11 +40,7 @@
 	</div>
 </div>
 <md-sidenav md-component-id="right" class="site-sidenav md-sidenav-right">
-	<div ng-controller='schemaController'>
-		<md-list flex>
-			<md-list-item> TEST1</md-list-item>
-			<md-list-item> TEST2</md-list-item>
-		</md-list>
+	<div ng-controller='uploadController' ng-init="<?php echo $contInit ?>" ng-include='"template/upload.html"'>
 	</div>
 </md-sidenav>
 </div>

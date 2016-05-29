@@ -4,6 +4,7 @@ app.controller('schemaController', function($scope, $location, $http, $mdToast, 
 	$scope.schemas=null;
 	$scope.lastQuery=null;
 	$scope.lastOrder=null;
+	$scope.orderParam='-score';
 	$scope.loading=true;
 	$scope.page=0;
 	$scope.pages;
@@ -150,4 +151,55 @@ app.controller('schemaController', function($scope, $location, $http, $mdToast, 
 
 		})
 	}
+})
+
+app.controller('uploadController', function($scope, $location, $http, Upload, $mdToast) {
+	$scope.userID=null;
+	$scope.schemaFile = null;
+	$scope.data={description:"",imgurAlbum:""}
+
+	$scope.logIn = function(user)
+	{
+		$scope.userID=user;
+	}
+
+	$scope.fileChange = function(file)
+	{
+		$scope.schemaFile = file[0];
+		$scope.$apply();
+	}
+
+	$scope.doFileUpload = function()
+	{
+		var d = $scope.verify();
+		if(d[0] == false)
+			$mdToast.showSimple("Error - " + d[1]);
+		else
+		{
+			var data = {schemaToUpload:$scope.schemaFile,desc:$scope.data.description,imgur:$scope.data.imgurAlbum};
+			Upload.upload({
+				url:"php/upload.php",
+				data:data}).then(function success(response){
+					var d = response.data;
+					if(d.success)
+						$scope.toast("Uploaded successfully! Refresh for changes");
+					else
+					{
+						console.log(d)
+						$scope.toast("Upload failed - " + d.reason);
+					}
+				})
+		}
+	}
+
+	$scope.verify = function()
+	{
+		if($scope.schemaFile == null) return [false,"No file found"];
+		if($scope.data.description.length < 5) return [false,"Description too short"];
+		var ial = $scope.data.imgurAlbum.length;
+		if(ial > 0 && ial <5) return [false,"Imgur album id appears too short"];
+		if(ial >= 7) return [false,"Imgur album id appears too long"];
+		return true;
+	}
+
 })

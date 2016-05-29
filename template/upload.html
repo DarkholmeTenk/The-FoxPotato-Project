@@ -1,0 +1,15 @@
+<div layout='column' ng-controller='uploadController'>
+	<form name='inputForm'>
+	<div layout='column'>
+		<!--<input id='fileInput' type='file' accept='.schema' ng-model='schemaFile' hide></input>-->
+		<md-button ngf-select ngf-accept='".schema"' ngf-pattern='".schema"' ngf-max-size='500KB' ng-model='schemaFile' class='md-fab' ><md-icon>file_upload</md-icon></md-button>
+		<span ng-if='schemaFile == null'>Select a file</span>
+		<span ng-if='schemaFile != null'>{{schemaFile.name}}</span>
+		<div ng-if='schemaFile != null' layout='column'>
+			<md-input-container><label>Description</label><textarea rows='8' cols='60' ng-model='data.description'></textarea></md-input-container>
+			<md-input-container><label>Imgur Album ID</label><input ng-model='data.imgurAlbum'></md-input-container>
+			<md-button class='md-icon-button' ng-click='doFileUpload()'><md-icon>done</md-icon></md-button>
+		</div>
+	</div>
+	</form>
+</div>
