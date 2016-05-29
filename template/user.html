@@ -1,0 +1,15 @@
+<div flex class='userBox' layout='column' layout-align='center center'>
+	<div flex='auto' class='marginTop'>
+		<img class='circle-image' ng-src='{{data.picture}}'></img>
+	</div>
+	<div flex='auto' ng-if='!editing'><h3>{{data.name}}</h3></div>
+	<div flex='auto' ng-if='editing'>
+		<md-input-container><label>New Username</label><input ng-model='cUser'></input></md-input-container>
+	</div>
+	<div flex='auto' layout='row' layout='space-between center'>
+		<md-button ng-if='!editing' class='md-icon-button' ng-click='edit();'><md-icon>settings</md-icon></md-button>
+		<md-button ng-if='editing' class='md-icon-button' ng-click='saveEdit();'><md-icon>done</md-icon></md-button>
+		<md-button ng-if='editing' class='md-icon-button' ng-click='cancelEdit();'><md-icon>delete</md-icon></md-button>
+		<md-button target='_top' href='?logout' class='md-icon-button'><md-icon>exit_to_app</md-icon></md-button>
+	</div>
+</div>

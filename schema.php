@@ -156,6 +156,19 @@
 		return $data;
 	}
 
+	function formatDesc($data)
+	{
+		foreach($data as $key=>$value)
+		{
+			$desc = $value["description"];
+			$desc = str_replace("\\\\","\\",$desc);
+			$desc = str_replace(array("\\n","\\r"),"\n",$desc);
+			$desc = str_replace("\\'","'",$desc);
+			$data[$key]["description"] = $desc;
+		}
+		return $data;
+	}
+
 	function reindex($data)
 	{
 		$newData = array();
@@ -174,6 +187,7 @@
 		$d = addSquashedUID($d);
 		$d = addVoteData($d);
   		$d = addUserData($d);
+		$d = formatDesc($d);
 		$d = reindex($d);
 		return $d;
 	}

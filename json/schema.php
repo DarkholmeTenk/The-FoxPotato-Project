@@ -1,6 +1,6 @@
 <?php
 	require("reqs.php");
-	$numPerPage = 30;
+	$numPerPage = 14;
 	$currentPage = 0;
 
 	function filter($arr)
@@ -58,9 +58,10 @@
 	}
 
 	$mysql->print_debug=false;
-	$w = filter($_GET) . " " . order($_GET) . " " . limit($_GET);
+	$wfilt = filter($_GET);
+	$w = $wfilt . " " . order($_GET) . " " . limit($_GET);
 	$d = getSchemaData($w);
-	$size = $mysql->fetch_array("SELECT count(id) FROM schematics $w",MYSQLI_NUM,true)[0];
+	$size = $mysql->fetch_array("SELECT count(id) FROM schematics $wfilt",MYSQLI_NUM,true)[0];
 	$data = array("size"=>count($d),"data"=>$d,"totalSize"=>$size,"perPage"=>$numPerPage,"page"=>$currentPage);
 	echo json_encode($data,JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 ?>

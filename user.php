@@ -110,6 +110,16 @@
 		global $isLoggedIn;
 		global $authUrl;
 		handleNameChange();
+		if($isLoggedIn)
+		{
+			$userData->name = getUsername($userData);
+			$userDataJson = json_encode($userData,JSON_UNESCAPED_SLASHES);
+			echo "<div ng-controller='userController' ng-init='logIn($userDataJson)' ng-include='\"template/user.html\"'>\n";
+		}
+		else
+			echo "<div ng-controller='userController' ng-init='logIn(null); auth=\"$authUrl\";' ng-include='\"template/login.html\"'>\n";
+		echo "</div>";
+		/*
 		echo "<div class='userBox marginTop'>\n";
 		if($isLoggedIn)
 		{
@@ -132,7 +142,7 @@
 		{
 			echo "<a href='$authUrl'>Sign in using Google</a>";
 		}
-		echo "</div>";
+		echo "</div>";*/
 	}
 
 	function getUsername($userData)

@@ -7,12 +7,12 @@
 			<md-button class='md-icon-button' ng-click='edit(item.id)' ng-if='item.canEdit'><md-icon>mode_edit</md-icon></md-button>
 		</div>
 	</md-toolbar>
-	<div layout='row' layout-align='stretch stretch'>
-		<div layout='column' flex='75' layout-align='start stretch'>
+	<div layout-gt-xs='row' layout-xs='column' layout-align='stretch stretch'>
+		<div layout='column' flex-gt-sm='75' flex-sm='60' layout-align='start stretch' class='smallPad'>
 			<div flex='auto'>
-				{{item.description}}
+				<div class='description'>{{item.description}}</div>
 			</div>
-			<div ng-if='item.imgurAlbum!=null'>
+			<div ng-if='item.imgurAlbum!=null && item.imgurAlbum!=""'>
 				<md-divider></md-divider>
 				<a href='http://imgur.com/a/{{item.imgurAlbum}}'>
 				Imgur:<br/>
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 		</div>
-		<div layout='column' flex='25' layout-align='start stretch'>
+		<div layout='column' flex-gt-sm='25' flex-sm='50' layout-align='start stretch' class='smallPad'>
 			<div flex='auto' layout='row' layout-align='center'>
 				<div flex='grow' layout='column' layout-align='center center' class='userblob'>
 					<a href='{{item.userLink}}'>

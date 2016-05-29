@@ -1,23 +1,64 @@
-app.controller('schemaController', function($scope, $location, $http, $mdToast, $cacheFactory) {
+app.controller('schemaController', function($scope, $location, $http, $mdToast, $cacheFactory, $mdSidenav) {
 	$scope.userID=-1;
 	$scope.schemaData = {};
 	$scope.schemas=null;
-	$scope.lastQuery=null
+	$scope.lastQuery=null;
+	$scope.lastOrder=null;
+	$scope.loading=true;
+	$scope.page=0;
+	$scope.pages;
 
 	$scope.logIn = function(user)
 	{
 		$scope.userID=user;
 	}
 
-	$scope.updateData = function(getR) {
-		$scope.lastQuest=getR;
-		console.log("Updating with " + getR)
-		$http.get(url+"json/schema.php?"+getR).then(function success(response){
+	$scope.updateData = function() {
+		$scope.loading = true;
+		var p = "p="+$scope.page;
+		var q = ($scope.lastQuery != null ? $scope.lastQuery + "&": "") + p;
+		var order = $scope.lastOrder != null ? "o="+$scope.lastOrder+"&"+q : q;
+		console.log("Req="+order);
+		$http.get(url+"json/schema.php?"+order).then(function success(response){
 			console.log("Data retrieved");
 			$scope.schemaData = response;
+			console.log(response)
 			$scope.schemas=response.data.data;
+			$scope.numPages = Math.ceil(response.data.totalSize / response.data.perPage);
+			$scope.pages = [];
+			var page = response.data.page;
+			$scope.page = page;
+			for(var i = Math.max(0,page-5); i < Math.min(page+5,$scope.numPages); i++)
+			{
+				$scope.pages[i] = {
+					selected:i==page,
+					number:i+1,
+					p:i,
+				};
+			}
+			$scope.loading = false;
 		},
 		function error(response){})
+	}
+
+	$scope.search = function(query)
+	{
+		if(query == $scope.lastQuery) return;
+		$scope.lastQuery = query;
+		$scope.page = 0;
+		$scope.updateData();
+	}
+
+	$scope.changePage = function(newPage)
+	{
+		if(newPage == $scope.page) return;
+		$scope.page = newPage;
+		$scope.updateData();
+	}
+
+	$scope.getPages = function()
+	{
+		return $scope.pages;
 	}
 
 	$scope.vote = function(itemID,currentScore,newScore)
@@ -73,7 +114,6 @@ app.controller('schemaController', function($scope, $location, $http, $mdToast, 
 						if(!imageData.title)
 							imageData.title=image.description;
 						images.push(imageData);
-						console.log(images);
 					}
 				});
 				img.data[albumid] = images;
