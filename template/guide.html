@@ -1,0 +1,61 @@
+<md-dialog flex-gt-sm='70' flex-sm='80' flex-xs='90'>
+<md-dialog-content id='guideContent'>
+	<md-tabs md-dynamic-height md-center-tabs>
+		<md-tab label='guide'>
+			This guide will help you create schematics for the TARDIS Mod.<br>
+			It assumes you are using the latest version of the mod from the <a href='http://tardismod.com:8080'>Jenkins</a> as the commands may change between versions!
+		</md-tab>
+		<md-tab label='core/control panel'>
+			<h2> Core </h2>
+			The first thing that needs to be defined when you are creating your own schematic is the Schema Core.<br>
+			This block needs to go on the bottom of your schematic and it stores data such as where the doors are and stuff.<br>
+			<h2> Control Panel</h2>
+			The control panel needs to go directly above this.
+			It can be up to 10 blocks above, but the X and Z need to be the same.<br>
+			This block provides the user's interface to the schematic controls, which lets them delete the room.
+		</md-tab>	
+		<md-tab label='boundaries'>
+			<h2> Config </h2>
+			Firstly, to see the boundaries, you need to go to your config folder ('minecraft/configs/darkmods/TardisMod')
+			and open 'toolsAndBlocks.cfg' (in something smart, like NotePad++, which can understand \n line endings)<br/>
+			Then you need to change 'Visibility - Schema:B:false' to 'Visibility - Schema:B:true'<br/>
+			<h2> Boundaries </h2>
+			As there are 3 axes in Minecraft, we need 3 boundaries to define our schematics<br/>
+			Firstly, you need to do an X and a Z axis, which must both pass through the Schema Core!<br/>
+			Next you need to do the Y axis, this needs 4 lines of blocks, which must be in the 4 corners of your schematic<br/>
+			I like to connect my Y boundaries to my X and Z boundaries to make a nice square along the bottom, but it isn't necessary!
+		</md-tab>
+		<md-tab label='doors'>
+			<h2> Structure </h2>
+			The door structure that is used in most of the TARDIS doors is 8 white door blocks around 1 blue/red block.<br/>
+			While this isn't the only structure that can be used, it's nice if all the doors have the same structure<br/>
+			<h2> Primary Door </h2>
+			Every room needs one (and only one) primary door.
+			The primary (red) door is the door that is used to determine how the room is placed<br/>
+			It is always placed touching the door that was used to create the room.
+			So for asymmetric rooms this is very important: e.g. LiftUp is identical to LiftDown except LiftUp has the primary door at the bottom and LiftDown has it at the top<br/>
+			<h2> Secondary Doors </h2>
+			Secondary (blue) doors can be placed nearly anywhere in a schematic and you can have as many as you want.<br/>
+			It's nice if you have multiple floors to try to match the Lift heights, but it's not a requirement.
+		</md-tab>
+		<md-tab label='saving/loading'>
+			<h2> TardisSchema </h2>
+			All schematic commands fall under the super command '/tardisschema', however '/tschema' or '/tschem' can be used as shorthand for this.<br/>
+			If you want to use a word with spaces as one of the parameters, e.g. to save a room with a space in the name, put quotation marks (") around the words.
+			<h2> Saving </h2>
+			Saving is done by doing '/tschem save [name] [x] [y] [z]', where x, y and z are the coordinates of the schema core.<br/>
+			You can also save by standing up to 4 blocks above the schema core and doing '/tschem save [name]'<br/>
+			If the schema saves successfully, you should see 'Schema saved' printed in chat.
+			You may need to change categories for the schema to show up in a tardis.<br/>
+			There are 2 types of error that should be seen:
+			<ul>
+				<li>Core not found: Make sure you're on top of the schema core or the coordinates are correct</li>
+				<li>No primary door found: Make sure the boundaries printed are correct and there is a Primary door</li>
+			</ul>
+			Any other error type will only be printed to console!
+			<h2> Loading </h2>
+			Loading is done similarly to saving, except the format is '/tschem load [name] [x] [y] [z] [f]' where f is the direction the primary door should face
+		</md-tab>
+	</md-tabs>
+</md-dialog-content>
+</md-dialog>

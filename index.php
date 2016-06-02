@@ -22,6 +22,7 @@
 	<?php printUserBox() ?>
 	<md-list flex>
 		<md-list-item ng-if='userID!=-1' ng-click='openNewSchemaMenu()'>New Schema</md-list-item>
+		<md-list-item ng-click='openGuide()'>Schema Creation Guide</md-list-item>
 	</md-list>
 	This is the development version of FoxPotato.com
 </md-sidenav>

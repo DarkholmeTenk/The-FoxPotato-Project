@@ -1,4 +1,4 @@
-<div ng-init='updateData()'>
+<div ng-controller='schemaController' ng-init='updateData()'>
 <md-progress-circular class='center' ng-if='loading' md-mode="indeterminate" md-diameter='150'></md-progress-circular>
 <md-whiteframe flex='80' flex-gt-md='60' flex-xs='100' flex-sm='90' class="md-whiteframe-1dp marginTop center" layout='column' ng-if='!loading' ng-repeat='item in schemas'>
 	<div ng-if='!item.edit' ng-include="'template/schema.html'"></div>
