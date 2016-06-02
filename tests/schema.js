@@ -20,7 +20,7 @@ app.controller('schemaController', function($scope, $location, $http, $mdToast, 
 		var q = ($scope.lastQuery != null ? $scope.lastQuery + "&": "") + p;
 		var order = $scope.lastOrder != null ? "o="+$scope.lastOrder+"&"+q : q;
 		console.log("Req="+order);
-		$http.get(url+"json/schema.php?"+order).then(function success(response){
+		$http.get("json/schema.php?"+order).then(function success(response){
 			console.log("Data retrieved");
 			$scope.schemaData = response;
 			console.log(response)
@@ -66,7 +66,7 @@ app.controller('schemaController', function($scope, $location, $http, $mdToast, 
 	{
 		if(currentScore == newScore)
 			newScore = 0;
-		$http.get(url+"vote.php?schemaID="+itemID+"&score="+newScore).then(function success(response){
+		$http.get("vote.php?schemaID="+itemID+"&score="+newScore).then(function success(response){
 			data = response.data;
 			if(data.success)
 			{
