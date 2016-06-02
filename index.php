@@ -21,7 +21,7 @@
 <md-sidenav md-component-id="left" class="site-sidenav md-sidenav-left">
 	<?php printUserBox() ?>
 	<md-list flex>
-		<md-list-item ng-if='userID!=-1' ng-click='openNewSchemaMenu()'>New Schema</md-list-item>
+		<md-list-item hide show-gt-sm ng-if='userID!=-1' ng-click='openNewSchemaMenu()'>New Schema</md-list-item>
 	</md-list>
 	This is the development version of FoxPotato.com
 </md-sidenav>
